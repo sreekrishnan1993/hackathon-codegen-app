@@ -7,7 +7,10 @@ import path from 'path'
 interface GeneratedResult {
   html: string;
   sitecoreFields: string;
-  component: string;
+  component: {
+    componentName: string;
+    componentData: string;
+  };
   timestamp: number;
 }
 
@@ -19,7 +22,11 @@ export function generateResultId(): string {
 }
 
 // Store results with the given ID
-export async function storeResults(id: string, results: Omit<GeneratedResult, 'timestamp'>): Promise<void> {
+export async function storeResults(id: string, results: { 
+  html: string;
+  sitecoreFields: string;
+  component: string;
+}): Promise<void> {
   try {
     console.log('Storing results for ID:', id)
     console.log('Results to store:', {
@@ -28,8 +35,13 @@ export async function storeResults(id: string, results: Omit<GeneratedResult, 't
       componentLength: results.component.length
     })
     
+    // Parse the component string back into an object
+    const componentData = JSON.parse(results.component)
+    
     const data = {
-      ...results,
+      html: results.html,
+      sitecoreFields: results.sitecoreFields,
+      component: componentData,
       timestamp: Date.now()
     }
     
@@ -112,7 +124,8 @@ export async function getResults(id: string): Promise<GeneratedResult | null> {
       console.log('Result retrieved successfully:', {
         htmlLength: result.html.length,
         sitecoreFieldsLength: result.sitecoreFields.length,
-        componentLength: result.component.length,
+        componentName: result.component.componentName,
+        componentDataLength: result.component.componentData.length,
         timestamp: new Date(result.timestamp).toISOString()
       })
       
@@ -143,7 +156,8 @@ export async function getResults(id: string): Promise<GeneratedResult | null> {
       console.log('Result retrieved successfully:', {
         htmlLength: result.html.length,
         sitecoreFieldsLength: result.sitecoreFields.length,
-        componentLength: result.component.length,
+        componentName: result.component.componentName,
+        componentDataLength: result.component.componentData.length,
         timestamp: new Date(result.timestamp).toISOString()
       })
       

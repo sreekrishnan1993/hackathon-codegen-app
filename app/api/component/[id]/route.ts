@@ -8,22 +8,21 @@ export async function GET(
   try {
     console.log('Component API called with ID:', params.id)
     
-    // Get results from storage
     const results = await getResults(params.id)
-    
     if (!results) {
       return NextResponse.json(
-        { error: 'Results not found' },
+        { success: false, error: 'Results not found' },
         { status: 404 }
       )
     }
-    
+
+    // Return the component data directly since it's already in the correct format
     return NextResponse.json({
-      success: true,
-      component: results.component
+      componentName: results.component.componentName,
+      componentData: results.component.componentData
     })
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Error in component API:', error)
     return NextResponse.json(
       { success: false, error: 'Internal server error' },
       { status: 500 }

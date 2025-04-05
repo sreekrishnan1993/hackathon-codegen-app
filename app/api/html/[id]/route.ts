@@ -6,24 +6,26 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    console.log('HTML API called with ID:', params.id)
-    
-    // Get results from storage
-    const results = await getResults(params.id)
-    
+    const id = params.id
+    console.log('HTML API called with ID:', id)
+
+    const results = await getResults(id)
     if (!results) {
       return NextResponse.json(
-        { error: 'Results not found' },
+        { success: false, error: 'Results not found' },
         { status: 404 }
       )
     }
-    
+
+    // Parse the stored JSON string
+    const htmlData = JSON.parse(results.html)
+
     return NextResponse.json({
-      success: true,
-      html: results.html
+      componentName: htmlData.componentName,
+      html: htmlData.html
     })
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Error in HTML API:', error)
     return NextResponse.json(
       { success: false, error: 'Internal server error' },
       { status: 500 }
