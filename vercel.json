@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "public": true,
+  "functions": {
+    "app/api/convert/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/results/*/route.ts": {
+      "maxDuration": 10
+    }
+  },
+  "regions": ["iad1"],
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs"
+} 

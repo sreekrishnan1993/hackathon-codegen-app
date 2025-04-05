@@ -1,0 +1,8 @@
+{
+  "/page": "app/page.js",
+  "/results/[id]/page": "app/results/[id]/page.js",
+  "/api/html/[id]/route": "app/api/html/[id]/route.js",
+  "/api-docs/page": "app/api-docs/page.js",
+  "/api/sitecore-fields/[id]/route": "app/api/sitecore-fields/[id]/route.js",
+  "/api/component/[id]/route": "app/api/component/[id]/route.js"
+}
